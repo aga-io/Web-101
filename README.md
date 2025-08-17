@@ -3,19 +3,32 @@
 ## Profiles
 - mysql
 ```bash
-docker-compose --profile mysql up -d --build
+DB=mysql
 ```
 - postgres
 ```bash
-docker-compose --profile postgres up -d --build
+DB=postgres
 ```
-
-To Stop the Docker Compose
 ```bash
-docker-compose stop
+docker-compose up -d
 ```
 
 To Stop the Docker Compose and Remove all associated backend
 ```bash
 docker-compose down
+```
+
+To Stop the Docker Compose and Remove all associated backend and Volume
+```bash
+docker-compose down -v
+```
+
+To Start the Docker Compose if The Container is Already Started
+```bash
+docker-compose stop
+```
+
+To Stop the Docker Compose
+```bash
+docker-compose stop
 ```

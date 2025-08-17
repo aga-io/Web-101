@@ -36,45 +36,12 @@ services:
     command: [ "redis-server", "--appendonly", "yes" ]
     hostname: redis.container
     container_name: redis
+    volumes:
+      - ./redis-data:/data
     ports:
       - "6379:6379"
     networks:
       - dev
-
-  mysql:
-    image: mysql:8.0
-    container_name: mysql
-    restart: unless-stopped
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./db-data/mysql:/var/lib/mysql
-    networks:
-      - dev
-    profiles:
-      - mysql
-
-  postgres:
-    image: postgres:14-alpine
-    container_name: postgres
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./db-data/postgres:/var/lib/postgresql/data
-    networks:
-      - dev
-    profiles:
-      - postgres
 
   npm:
     image: node:alpine

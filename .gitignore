@@ -1,4 +1,6 @@
 .idea
 www/*
+db-data
+redis-data
 
 !www/.keep
