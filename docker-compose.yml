@@ -1,0 +1,96 @@
+networks:
+  dev:
+    driver: bridge
+
+services:
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./www:${PROJECT_DIR}
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php_fpm
+    networks:
+      - dev
+
+  php_fpm:
+    build:
+      context: ./php-fpm
+    hostname: fpm.container
+    container_name: fpm
+    volumes:
+      - ./www:${PROJECT_DIR}
+    ports:
+      - "9000:9000"
+    depends_on:
+      - redis
+    networks:
+      - dev
+
+  redis:
+    image: redis:alpine
+    command: [ "redis-server", "--appendonly", "yes" ]
+    hostname: redis.container
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - dev
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db-data/mysql:/var/lib/mysql
+    networks:
+      - dev
+    profiles:
+      - mysql
+
+  postgres:
+    image: postgres:14-alpine
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db-data/postgres:/var/lib/postgresql/data
+    networks:
+      - dev
+    profiles:
+      - postgres
+
+  npm:
+    image: node:alpine
+    container_name: npm
+    volumes:
+      - ./www:${PROJECT_DIR}
+    working_dir: ${PROJECT_DIR}
+    entrypoint: [ 'npm' ]
+
+  composer:
+    image: composer:2
+    container_name: composer
+    volumes:
+      - ./www:${PROJECT_DIR}
+    depends_on:
+      - php_fpm
+    networks:
+      - dev
+    entrypoint: [ 'composer', '--ignore-platform-reqs' ]
