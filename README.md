@@ -54,6 +54,40 @@ Setting up your environment is straightforward.
 
    Add your web application's code into the `./www` directory. This folder is synced with the Nginx and PHP containers.
 
+## 🏗️ Installing Laravel
+
+Follow these steps to install a fresh Laravel project into this environment.
+
+### 1. Create the Project
+Install Laravel into a subdirectory named `app` using the specific working directory flag.
+```bash
+docker-compose run --rm -w /var/www/html composer create-project laravel/laravel app
+```
+
+### 2. Update Nginx Configuration
+Point the web server to Laravel's public folder.
+1. Open `nginx/default.conf`.
+2. Update the `root` directive:
+   ```nginx
+   root /var/www/html/app/public;
+   ```
+3. Restart `nginx` to apply changes:
+   ```bash
+   docker-compose restart nginx
+   ```
+
+### 3. Set Permissions
+Grant the web server permission to write to Laravel's storage directories.
+```bash
+docker-compose exec php_fpm chown -R www-data:www-data /var/www/html/app/storage /var/www/html/app/bootstrap/cache
+```
+
+### 4. Run Migrations
+Update your Laravel `.env` with the Docker service credentials, then run the migration:
+```bash
+docker-compose exec php_fpm php /var/www/html/app/artisan migrate
+```
+
 ## ⚙️ Usage
 
 All commands should be run from the root of the project directory.
@@ -125,3 +159,14 @@ service defined in `docker-compose.yml`.
 | PostgreSQL | `postgres` | 5432 | `postgres` | `postgres` | `local_db` |
 | Redis      | `redis`    | 6379 | -          | -          | -          |
 
+```bash
+docker-compose run --rm -w /var/www/html composer create-project laravel/laravel app
+
+root /var/www/html/app/public;
+docker-compose restart nginx
+
+docker-compose exec php_fpm chown -R www-data:www-data /var/www/html/app/storage /var/www/html/app/bootstrap/cache
+
+RUN apk add --no-cache freetds libpq
+docker-compose exec php_fpm php /var/www/html/app/artisan migrate
+```
