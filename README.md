@@ -159,6 +159,7 @@ service defined in `docker-compose.yml`.
 | PostgreSQL | `postgres` | 5432 | `postgres` | `postgres` | `local_db` |
 | Redis      | `redis`    | 6379 | -          | -          | -          |
 
+Notes:
 ```bash
 docker-compose run --rm -w /var/www/html composer create-project laravel/laravel app
 
@@ -167,6 +168,5 @@ docker-compose restart nginx
 
 docker-compose exec php_fpm chown -R www-data:www-data /var/www/html/app/storage /var/www/html/app/bootstrap/cache
 
-RUN apk add --no-cache freetds libpq
 docker-compose exec php_fpm php /var/www/html/app/artisan migrate
 ```
