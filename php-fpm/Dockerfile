@@ -7,8 +7,9 @@ ADD ./www.conf /usr/local/etc/php-fpm.d/www.conf
 ADD ./php.ini /usr/local/etc/php/php.ini
 
 # Install PHP extensions and Xdebug
-RUN apk add --no-cache freetds libpq \
-    && apk add --no-cache --virtual .build-deps \
+RUN apk add --no-cache freetds libpq
+
+RUN apk add --no-cache --virtual .build-deps \
     $PHPIZE_DEPS \
     freetds-dev \
     postgresql-dev \
