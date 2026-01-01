@@ -960,7 +960,7 @@
           class="w-full rounded-md border-0 py-1.5 px-2.5 text-sm ring-1 ring-slate-300 placeholder:text-slate-400 focus:ring-2"/>
       ```
 
-    - Refactor code pada file `resources/views/job/index.blade.php` dengan menambahkan code berikut
+    - Refactor code pada file `resources/views/components/text-input.blade.php` dengan menambahkan code berikut
 
       ```php
       <div class="relative">
