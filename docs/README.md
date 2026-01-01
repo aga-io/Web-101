@@ -745,7 +745,7 @@
 
 - Filtering Jobs: Min & Max Salary
 
-    - Refactor code pada file `resources/views/components/job-card.blade.php`, hapus bagian ini
+    - ~~Refactor code pada file `resources/views/components/job-card.blade.php`, hapus bagian ini~~
 
       ```php
       <x-text-input name="search" value="{{ request('search') }}" placeholder="Search for any text"/>
