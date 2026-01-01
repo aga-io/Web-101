@@ -121,7 +121,7 @@
       pada file css/js)
 
       ```bash
-      ./vendor/bin/sail npm run build
+      docker-compose run --rm -p 5173:5173 -w /var/www/html/app npm run build
       ```
 
 ## Blade Component and Layout
@@ -605,10 +605,10 @@
     - Install Tailwind Form Plugin
 
       ```bash
-      ./vendor/bin/sail npm install -D @tailwindcss/forms
+      docker-compose run --rm -p 5173:5173 -w /var/www/html/app npm install -D @tailwindcss/forms
       ```
 
-    - Edit `tailwind.config.js` dan tambahkan plugin `require('@tailwindcss/forms')` pada file tersebut
+    - ~~Edit `tailwind.config.js` dan tambahkan plugin `require('@tailwindcss/forms')` pada file tersebut~~
 
       ```js
       module.exports = {
@@ -617,6 +617,14 @@
               require('@tailwindcss/forms'),
           ],
       }
+      ```
+
+    - Edit `resources/css/app.css` dan tambahkan plugin `@plugin "@tailwindcss/forms";` pada file tersebut
+
+      ```js
+      ...
+      @import 'tailwindcss';
+      @plugin "@tailwindcss/forms";
       ```
 
     - Ubah code pada file `resources/views/job/index.blade.php` dengan menambahkan code berikut diantara `breadcrumbs`
@@ -1107,7 +1115,7 @@
     - Install Alpine.js https://alpinejs.dev/
 
       ```bash
-      ./vendor/bin/sail npm install alpinejs
+      docker-compose run --rm -p 5173:5173 -w /var/www/html/app npm install alpinejs
       ```
 
     - Refactor code pada file `resources/views/components/layout.blade.php` dengan menambahkan script Alpine.js
