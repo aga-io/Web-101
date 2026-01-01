@@ -1234,7 +1234,7 @@
               $table->id();
   
               $table->string('company_name');
-              $table->foreignIdFor(\App\Models\Employer::class)->nullable()->constrained();
+              $table->foreignIdFor(\App\Models\User::class)->nullable()->constrained();
   
               $table->timestamps();
           });
