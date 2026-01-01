@@ -108,13 +108,13 @@
 - Install Sail npm package
 
   ```bash
-  docker-compose run --rm --service-ports -w /var/www/html/app npm install
+  docker-compose run --rm -p 5173:5173 -w /var/www/html/app npm install
   ```
 
 - Running Sail Vite
 
   ```bash
-  docker-compose run --rm --service-ports -w /var/www/html/app npm run dev
+  docker-compose run --rm -p 5173:5173 -w /var/www/html/app npm run dev
   ```
 
     - Jika tidak ingin menjalankan npm dibackground, gunakan perintah berikut (harus dijalankan ulang jika ada perubahan

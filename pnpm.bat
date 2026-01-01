@@ -1,2 +1,2 @@
 @echo off
-docker-compose run --rm --service-ports -w /var/www/html/app npm %*
+docker-compose run --rm -p 5173:5173 -w /var/www/html/app npm %*
