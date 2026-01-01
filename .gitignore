@@ -1,5 +1,4 @@
 .idea
-www/*
 db-data
 redis-data
 
