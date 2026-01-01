@@ -493,6 +493,7 @@
     - Tambahkan code pada file `resources/views/job/show.blade.php` menjadi seperti berikut
 
       ```php
+      ...
       <nav>
           <ul>
               <li>
@@ -506,6 +507,7 @@
               <li>{{ $job->title }}</li>
           </ul>
       </nav>
+      ...
       ```
 
     - Tambahkan style pada file `resources/views/job/show.blade.php` menjadi seperti berikut
