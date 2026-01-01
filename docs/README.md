@@ -608,17 +608,6 @@
       docker-compose run --rm -p 5173:5173 -w /var/www/html/app npm install -D @tailwindcss/forms
       ```
 
-    - ~~Edit `tailwind.config.js` dan tambahkan plugin `require('@tailwindcss/forms')` pada file tersebut~~
-
-      ```js
-      module.exports = {
-          ...
-          plugins: [
-              require('@tailwindcss/forms'),
-          ],
-      }
-      ```
-
     - Edit `resources/css/app.css` dan tambahkan plugin `@plugin "@tailwindcss/forms";` pada file tersebut
 
       ```js
@@ -744,14 +733,6 @@
 ## Filtering Jobs: Min & Max Salary
 
 - Filtering Jobs: Min & Max Salary
-
-    - ~~Refactor code pada file `resources/views/components/job-card.blade.php`, hapus bagian ini~~
-
-      ```php
-      <x-text-input name="search" value="{{ request('search') }}" placeholder="Search for any text"/>
-      <x-text-input name="min_salary" value="{{ request('min_salary') }}" placeholder="From"/>
-      <x-text-input name="max_salary" value="{{ request('max_salary') }}" placeholder="To"/>
-      ```
 
     - Refactor code pada `JobController` untuk mendukung fungsi filter
 
