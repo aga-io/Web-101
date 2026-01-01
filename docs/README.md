@@ -5,7 +5,7 @@
 - Membuat Model, Migration, dan Factory
 
   ```bash
-  docker-compose exec php_fpm php /var/www/html/app/artisan make:model ModelName -m -f
+  artisan make:model ModelName -m -f
   ```
 
     - Contoh (Job Model)
@@ -84,12 +84,11 @@
           docker-compose exec php_fpm php /var/www/html/app/artisan make:controller JobController --resource
           ```
 - Buat seeder dengan edit file `database/seeders/DatabaseSeeder.php` dengan menambahkan code berikut
-
-      ```php
-      ...
-      Job::factory(100)->create();
-      ...
-      ```
+    ```php
+    ...
+    Job::factory(100)->create();
+    ...
+    ```
 - Menjalankan Seeder
 
   ```bash
@@ -130,7 +129,7 @@
 - Membuat Layout Component
 
   ```bash
-  docker-compose exec php_fpm php /var/www/html/app/artisan make:component ComponentName
+  artisan make:component ComponentName
   ```
 
     - Contoh (Layout Component)
@@ -142,7 +141,7 @@
           ```
 
     - Reference https://laravel.com/docs/11.x/blade#defining-the-layout-component
-    - Copy code berikut ke file `resources/view/layout.blade.php`
+    - Copy code berikut ke file `resources/views/components/layout.blade.php`
 
       ```php
       <!DOCTYPE html>
