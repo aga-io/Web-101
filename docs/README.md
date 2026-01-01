@@ -1,65 +1,17 @@
 # Laravel
 
-## Setup New Laravel Sail Project or Existing Repository
-
-- Membuat Project Laravel Sail Baru
-
-    ```bash
-    curl -s "https://laravel.build/example-app" | bash
-    ```
-
-    - Memilih Sail Service (Contoh: mysql dan redis)
-
-        ```bash
-        curl -s "https://laravel.build/example-app?with=mysql,redis" | bash
-        ```
-
-### Setup Existing Repository
-
-- Jika ingin menggunakan repository Laravel Sail
-
-    ```bash
-    git clone <repository-url>
-    ```
-
-- Docker run dengan command berikut
-
-    ```bash
-    docker run --rm \
-        -u "$(id -u):$(id -g)" \
-        -v $(pwd):/opt \
-        -w /opt \
-        laravelsail/php84-composer:latest \
-        composer install --ignore-platform-reqs
-    ```
-
-
-- Running Laravel Sail dari Repository
-
-    ```bash
-    ./vendor/bin/sail up
-    # Tambahkan opsi -d jika ingin jalankan di background
-    ./vendor/bin/sail up -d
-    ```
-
-- Migrasi Awal Laravel
-
-    ```bash
-    ./vendor/bin/sail artisan migrate
-    ```
-
 ## Job Model, Factory, and Migration
 
 - Membuat Model, Migration, dan Factory
 
     ```bash
-    ./vendor/bin/sail artisan make:model ModelName -m -f
+    artisan make:model ModelName -m -f
     ```
     - Contoh (Job Model)
         - Inisialisasi Model dengan Migration dan Factory
 
             ```bash
-            ./vendor/bin/sail artisan make:model Job -m -f
+            docker-compose exec php_fpm php /var/www/html/app/artisan make:model Job -m -f
             ```
 
 ## Job Controller and Seeder
@@ -67,18 +19,18 @@
 - Membuat Controller
 
     ```bash
-    ./vendor/bin/sail artisan make:controller ControllerName
+    artisan make:controller ControllerName
     ```
     - Contoh (Job Controller)
         - Inisialisasi Controller dengan Resource (CRUD)
 
           ```bash
-          ./vendor/bin/sail artisan make:controller JobController --resource
+          docker-compose exec php_fpm php /var/www/html/app/artisan make:controller JobController --resource
           ```
 - Menjalankan Seeder
 
     ```bash
-    ./vendor/bin/sail artisan migrate:refresh --seed
+    docker-compose exec php_fpm php /var/www/html/app/artisan migrate:refresh --seed
     ```
 
 ## Laravel Debugbar
@@ -86,7 +38,7 @@
 - Install Laravel Debugbar (https://github.com/barryvdh/laravel-debugbar)
 
     ```bash
-    ./vendor/bin/sail composer require barryvdh/laravel-debugbar --dev
+    docker-compose run --rm -w /var/www/html/app composer require barryvdh/laravel-debugbar --dev
     ```
 
 ## Vite and Tailwind CSS
@@ -94,19 +46,19 @@
 - Install Sail npm package
 
     ```bash
-    ./vendor/bin/sail npm install
+    docker-compose run --rm --service-ports -w /var/www/html/app npm install
     ```
 
 - Running Sail Vite
 
     ```bash
-    ./vendor/bin/sail npm run dev
+    docker-compose run --rm --service-ports -w /var/www/html/app npm run dev
     ```
     - Jika tidak ingin menjalankan npm dibackground, gunakan perintah berikut (harus dijalankan ulang jika ada perubahan
       pada file css/js)
 
       ```bash
-      ./vendor/bin/sail npm run build
+      docker-compose run --rm --service-ports -w /var/www/html/app npm run build
       ```
 
 ## Blade Component and Layout
@@ -114,13 +66,13 @@
 - Membuat Layout Component
 
     ```bash
-    ./vendor/bin/sail artisan make:component ComponentName
+    artisan make:component ComponentName
     ```
     - Contoh (Layout Component)
         - Aktifkan opsi --view untuk membuat file view
 
             ```bash
-            ./vendor/bin/sail artisan make:component Layout --view
+            docker-compose exec php_fpm php /var/www/html/app/artisan make:component Layout --view
             ```
     - Reference https://laravel.com/docs/11.x/blade#defining-the-layout-component
     - Copy code berikut ke file `resources/view/layout.blade.php`
@@ -159,12 +111,12 @@
     - Cek apakah route sudah berjalan dengan baik
 
         ```bash
-        ./vendor/bin/sail artisan route:list
+        docker-compose exec php_fpm php /var/www/html/app/artisan route:list
         ```
     - Jika sudah, buat file `resources/views/job/index.blade.php` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:view job.index
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:view job.index
         ```
     - Ubah code pada method `index` di `JobController` menjadi seperti berikut
 
@@ -197,7 +149,7 @@
     - Buat sebuh component card dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:component Card --view
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:component Card --view
         ```
     - Tambahkan code berikut pada file `resources/views/components/card.blade.php`.
       Referensi https://laravel.com/docs/11.x/blade#default-merged-attributes
@@ -282,7 +234,7 @@
     - Buat sebuah component baru dengan nama `Tag` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:component Tag --view
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:component Tag --view
         ```
     - Pindahkan code `<div>` sebelumnya ke dalam component `Tag` pada file `resources/views/components/tag.blade.php`
 
@@ -321,7 +273,7 @@
     - Buat file `resources/views/job/show.blade.php` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:view job.show
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:view job.show
         ```
     - Ubah method `show` pada file JobController menjadi seperti berikut
 
@@ -363,7 +315,7 @@
     - Extract `<a>` menjadi sebuah component dengan nama `LinkButton` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:component LinkButton --view
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:component LinkButton --view
         ```
     - Pindahkan code `<a>` sebelumnya ke dalam component `LinkButton` pada file
       `resources/views/components/link-button.blade.php` dan ubah menjadi seperti berikut
@@ -384,7 +336,7 @@
     - Buat component baru dengan nama `JobCard` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:component JobCard --view
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:component JobCard --view
         ```
     - Pindahkan code sebelumnya pada file `resources/views/job/index.blade.php` ke dalam component `JobCard` pada file
       `resources/views/components/job-card.blade.php` dan ubah menjadi seperti berikut
@@ -464,7 +416,7 @@
     - Buat component baru dengan nama `Breadcrumbs` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:component Breadcrumbs
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:component Breadcrumbs
         ```
     - Pindahkan code sebelumnya pada file `resources/views/job/show.blade.php` ke dalam component `Breadcrumbs` pada
       file `resources/views/components/breadcrumbs.blade.php` dan ubah menjadi seperti berikut
@@ -542,7 +494,7 @@
     - Install Tailwind Form Plugin
 
         ```bash
-        ./vendor/bin/sail npm install -D @tailwindcss/forms
+        docker-compose run --rm --service-ports -w /var/www/html/app npm install -D @tailwindcss/forms
         ```
     - Edit `tailwind.config.js` dan tambahkan plugin `require('@tailwindcss/forms')` pada file tersebut
 
@@ -570,7 +522,7 @@
     - Buat component baru dengan nama `TextInput` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:component TextInput
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:component TextInput
         ```
     - Ubah `TextInput` class pada file `app/View/Components/TextInput.php` menjadi seperti berikut
 
@@ -769,7 +721,7 @@
     - Buat component baru dengan nama `RadioGroup` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:component RadioGroup
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:component RadioGroup
         ```
     - Refactor code pada `RadioGroup` class pada file `app/View/Components/RadioGroup.php` menjadi seperti berikut
 
@@ -983,7 +935,7 @@
     - Buat sebuah component baru dengan nama `Button` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:component Button --view
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:component Button --view
         ```
     - Refactor code pada component baru yang telah dibuat pada file `resources/views/components/button.blade.php` dengan
       code berikut
@@ -1001,7 +953,7 @@
     - Install Alpine.js https://alpinejs.dev/
 
         ```bash
-        ./vendor/bin/sail npm install alpinejs
+        docker-compose run --rm --service-ports -w /var/www/html/app npm install alpinejs
         ```
     - Refactor code pada file `resources/views/components/layout.blade.php` dengan menambahkan script Alpine.js
 
@@ -1115,7 +1067,7 @@
     - Buat model `Employer` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:model Employer -m -f
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:model Employer -m -f
         ```
     - Refactor code pada file `database/migrations/create_employers_table.php` menjadi seperti berikut
 
@@ -1189,17 +1141,17 @@
     - Bersihkan DB (**Jangan Jalankan di Production!!!**) dan jalankan migration
 
         ```bash
-        ./vendor/bin/sail artisan db:wipe && ./vendor/bin/sail artisan migrate
+        docker-compose exec php_fpm php /var/www/html/app/artisan db:wipe && docker-compose exec php_fpm php /var/www/html/app/artisan migrate
         ```
     - Buat controller `EmployerController` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:controller EmployerController
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:controller EmployerController
         ```
     - Buat resource controller `EmployerController` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:controller EmployerController --resource
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:controller EmployerController --resource
         ```
     - Refactor code pada file `database/factories/EmployeerFactory.php` dengan menambahkan code berikut
 
@@ -1240,7 +1192,7 @@
     - Run seeder
 
         ```bash
-        ./vendor/bin/sail artisan migrate:refresh --seed
+        docker-compose exec php_fpm php /var/www/html/app/artisan migrate:refresh --seed
         ```
 
 ## Employer: Searching By Employer Name
@@ -1336,12 +1288,12 @@
     - Buat `AuthController` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:controller AuthController --resource
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:controller AuthController --resource
         ```
     - Buat view `auth/create.blade.php` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:view auth.create
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:view auth.create
         ```
     - Ubah `AuthController` dengan menambahkan fungsi `create`
 
@@ -1441,7 +1393,7 @@
     - Run seeder
 
         ```bash
-        ./vendor/bin/sail artisan migrate:refresh --seed
+        docker-compose exec php_fpm php /var/www/html/app/artisan migrate:refresh --seed
         ```
     - Implementasi logic login pada `AuthController`
 
@@ -1536,7 +1488,7 @@
     - Buat model `JobApplication` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:model JobApplication -m -f
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:model JobApplication -m -f
         ```
     - Refactor code pada file `database/migrations/create_job_applications_table.php` menjadi seperti berikut
 
@@ -1605,12 +1557,12 @@
     - Run seeder
 
         ```bash
-        ./vendor/bin/sail artisan migrate:refresh --seed
+        docker-compose exec php_fpm php /var/www/html/app/artisan migrate:refresh --seed
         ```
     - Buat controller `JobApplicationController` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:controller JobApplicationController --resource
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:controller JobApplicationController --resource
         ```
     - Refactor `routes/web.php` dengan menambahkan route
 
@@ -1622,7 +1574,7 @@
     - Buat view `resources/views/job_application/create.blade.php` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:view job_application.create
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:view job_application.create
         ```
     - Refactor code pada file `resources/views/job_application/create.blade.php` dengan code berikut
 
@@ -1727,7 +1679,7 @@
     - Buat policy `JobPolicy` dengan command berikut (https://laravel.com/docs/11.x/authorization#policy-methods)
 
         ```bash
-        ./vendor/bin/sail artisan make:policy JobPolicy --model=Job
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:policy JobPolicy --model=Job
         ```
     - Refactor code pada file `app/Policies/JobPolicy.php` dengan menambahkan fungsi `apply`
 
@@ -1789,7 +1741,7 @@
     - Buat controller `MyApplicationController` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:controller MyApplicationController --resource
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:controller MyApplicationController --resource
         ```
     - Tambahkan route pada file `routes/web.php`
 
@@ -1812,7 +1764,7 @@
     - Buat view baru `resources/views/my_applications/index.blade.php` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:view my_applications.index
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:view my_applications.index
         ```
     - Refactor code pada file `resources/views/my_applications/index.blade.php` dengan code berikut
 
@@ -1929,7 +1881,7 @@
     - Run command berikut untuk symlink storage
 
         ```bash
-        ./vendor/bin/sail artisan storage:link
+        docker-compose exec php_fpm php /var/www/html/app/artisan storage:link
         ```
     - Buka file `config/filesystems.php` dan tambahkan code berikut
 
@@ -1949,7 +1901,7 @@
     - Buat migration untuk mendukung penyimpanan CV Path pada table dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:migration AddCvToJobApplicationsTable
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:migration AddCvToJobApplicationsTable
         ```
     - Refactor code pada file `database/migrations/add_cv_to_job_applications_table.php` dengan code berikut
 
@@ -1973,7 +1925,7 @@
     - Run migration
 
         ```bash
-        ./vendor/bin/sail artisan migrate
+        docker-compose exec php_fpm php /var/www/html/app/artisan migrate
         ```
     - Refactor `JobApplication` class pada file `app/Models/JobApplication.php` dengan menambahkan code berikut
 
@@ -2077,7 +2029,7 @@
     - Buat component baru dengan nama `Label` menggunakan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:component Label
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:component Label
         ```
     - Refactor component `Label` class pada file `app/View/Components/Label.php` dengan code berikut
 
@@ -2135,12 +2087,12 @@
     - Buat controller `EmployerController` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:controller EmployerController --resource
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:controller EmployerController --resource
         ```
     - Buat employer policy dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:policy EmployerPolicy --model=Employer
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:policy EmployerPolicy --model=Employer
         ```
     - Refactor code pada file `app/Policies/EmployerPolicy.php` dengan menambahkan fungsi `create`
 
@@ -2179,7 +2131,7 @@
     - Buat view `resources/views/employer/create.blade.php` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:view employer.create
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:view employer.create
         ```
     - Refactor code pada file `resources/views/employer/create.blade.php` dengan code berikut
 
@@ -2231,12 +2183,12 @@
     - Buat `MyJobController` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:controller MyJobController --resource
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:controller MyJobController --resource
         ```
     - Buat view `resources/views/my_job/index.blade.php` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:view my_job.index
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:view my_job.index
         ```
     - Refactor view `resources/views/my_job/index.blade.php` dengan code berikut
 
@@ -2270,7 +2222,7 @@
     - Buat sebuah middleware `EmployerMiddleware` dengan command berikut (https://laravel.com/docs/11.x/middleware)
 
         ```bash
-        ./vendor/bin/sail artisan make:middleware EmployerMiddleware
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:middleware EmployerMiddleware
         ```
     - Refactor `EmployerMiddleware` pada file `app/Http/Middleware/EmployerMiddleware.php` dengan code berikut
 
@@ -2315,7 +2267,7 @@
     - Buat view `resources/views/my_job/create.blade.php` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:view my_job.create
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:view my_job.create
         ```
     - Refactor code pada file `resources/views/my_job/create.blade.php` dengan code berikut
 
@@ -2521,7 +2473,7 @@
     - Buat view `edit` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:view my_job.edit
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:view my_job.edit
         ```
     - Refactor view `resources/views/my_job/edit.blade.php` dengan code berikut
 
@@ -2585,7 +2537,7 @@
     - Buat request baru `JobRequest` dengan command berikut untuk menghandle `edit` dan `store`
 
         ```bash
-        ./vendor/bin/sail artisan make:request JobRequest
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:request JobRequest
         ```
     - Refactor `JobRequest` pada file `app/Http/Requests/JobRequest.php` dengan code berikut
 
@@ -2753,7 +2705,7 @@
     - Buat migrasi baru dengan nama `AddSoftDeletesToJobsTable` dengan command berikut
 
         ```bash
-        ./vendor/bin/sail artisan make:migration AddSoftDeletesToJobsTable
+        docker-compose exec php_fpm php /var/www/html/app/artisan make:migration AddSoftDeletesToJobsTable
         ```
     - Refactor code pada file `database/migrations/add_soft_deletes_to_jobs_table.php` dengan code berikut
 
@@ -2777,7 +2729,7 @@
     - Run migration
 
         ```bash
-        ./vendor/bin/sail artisan migrate
+        docker-compose exec php_fpm php /var/www/html/app/artisan migrate
         ```
     - Refactor model `Job` dengan menambahkan `SoftDeletes`
 
