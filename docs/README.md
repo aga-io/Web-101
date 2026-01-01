@@ -691,7 +691,7 @@
 
 - Filtering Jobs: Form & Searching for Text in Job Posts
 
-    - Refactor code pada file `resources/views/components/job-card.blade.php`, hapus bagian ini
+    - Refactor code pada file `resources/views/components/job-card.blade.php`, cut bagian ini
 
       ```php
       <p class="text-sm text-slate-500 mb-4">{!! nl2br(e($job->description)) !!}</p>
