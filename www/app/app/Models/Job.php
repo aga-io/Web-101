@@ -11,4 +11,7 @@ class Job extends Model
     use HasFactory;
 
     protected $table = 'job';
+
+    public static array $experience = ['entry', 'intermediate', 'senior'];
+    public static array $category = ['IT', 'Finance', 'Marketing', 'Sales'];
 }
